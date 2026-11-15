@@ -4,22 +4,23 @@
 
 **Find mismatches between a PEFT LoRA adapter and a local SafeTensors base before you load the model.**
 
-![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-315a86) [![MIT license](https://img.shields.io/badge/license-MIT-39856a)](LICENSE) [![Release 0.2.0](https://img.shields.io/badge/release-0.2.0-4f6179)](docs/release-notes-v0.2.0.md)
+[![CI](https://github.com/nazek52/lorafit/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/nazek52/lorafit/actions/workflows/ci.yml) [![Latest release](https://img.shields.io/github/v/release/nazek52/lorafit?color=4f6179)](https://github.com/nazek52/lorafit/releases/latest) ![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-315a86) [![MIT license](https://img.shields.io/badge/license-MIT-39856a)](LICENSE)
 
-[Quickstart](#quickstart) · [Use your checkpoints](#use-your-checkpoints) · [CI and scripting](#ci-and-scripting) · [Scope](#scope)
+[Try the demo](#quickstart) · [Download the wheel](https://github.com/nazek52/lorafit/releases/download/v0.2.0/lorafit-0.2.0-py3-none-any.whl) · [Check your files](#use-your-checkpoints) · [CI and scripting](#ci-and-scripting)
 
 Swapped your base checkpoint? `lorafit` checks the adapter's tensor names, shapes and rank by reading the SafeTensors headers. It reports the exact module that differs. The check runs offline with no GPU or runtime dependencies.
 
 ## Quickstart
 
-From a checkout with Python 3.10 or newer:
+With Python 3.10 or newer, install the wheel from GitHub and run the included demo.
 
 ```sh
-python -m pip install .
+python -m pip install https://github.com/nazek52/lorafit/releases/download/v0.2.0/lorafit-0.2.0-py3-none-any.whl
 lorafit demo
 ```
 
-The demo creates two tiny synthetic bases and checks the same adapter against both. If you have the release wheel, run `python -m pip install --no-index ./lorafit-0.2.0-py3-none-any.whl` from its directory. See the [release notes](docs/release-notes-v0.2.0.md) for build instructions.
+The demo checks the same adapter against two tiny synthetic bases that it creates locally.
+To install from a checkout, run `python -m pip install .` at the repo root. For an offline install from a downloaded wheel, see the [release notes](docs/release-notes-v0.2.0.md).
 
 <details>
 <summary>Full output of the demo</summary>
