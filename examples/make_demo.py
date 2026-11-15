@@ -3,7 +3,7 @@
 import argparse
 from pathlib import Path
 
-from lora_fitcheck._demo import build_demo
+from lorafit._demo import build_demo
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)

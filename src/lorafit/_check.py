@@ -7,7 +7,7 @@ from dataclasses import dataclass, field
 from math import prod
 from pathlib import Path
 
-from lora_fitcheck._metadata import (
+from lorafit._metadata import (
     FLOAT_BYTES,
     MAX_CONFIG,
     Header,

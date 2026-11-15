@@ -15,7 +15,7 @@ use `PYTHONUTF8=1` when an older Windows Python cannot decode the checkout path 
 To format changes, run `python -m ruff format`. See [design](docs/design.md) for the scope and
 [good first issues](docs/good-first-issues.md) for focused contributions.
 
-For a bug report, include `lora-fitcheck --version`, your platform, the command, the exit code,
+For a bug report, include `lorafit --version`, your platform, the command, the exit code,
 and a sanitized report. Prefer a tiny synthetic reproducer over attaching private weights or
 sharing machine paths. Keep fixes focused and add a test that fails before a behavior fix.
 

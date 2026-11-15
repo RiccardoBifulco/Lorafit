@@ -10,8 +10,10 @@ from importlib.metadata import version
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
-from lora_fitcheck._check import Report, check
-from lora_fitcheck._demo import build_demo
+from lorafit._check import Report, check
+from lorafit._demo import build_demo
+
+PROGRAM = "lorafit"
 
 
 def _as_json(report: Report) -> str:
@@ -66,25 +68,23 @@ def _positive(value: str) -> int:
 
 def _demo() -> int:
     try:
-        with TemporaryDirectory(prefix="lora-fitcheck-") as directory:
+        with TemporaryDirectory(prefix=f"{PROGRAM}-") as directory:
             base, wrong, adapter = build_demo(Path(directory))
             good, bad = check(base, adapter), check(wrong, adapter)
-            print(f"$ lora-fitcheck check base adapter\n{_as_text(good, 12)}\n")
-            print(f"$ lora-fitcheck check wrong-base adapter\n{_as_text(bad, 12)}")
+            print(f"$ {PROGRAM} check base adapter\n{_as_text(good, 12)}\n")
+            print(f"$ {PROGRAM} check wrong-base adapter\n{_as_text(bad, 12)}")
             return 0 if (good.exit_code, bad.exit_code) == (0, 1) else 2
     except OSError as exc:
-        print(f"lora-fitcheck: could not create demo files: {exc}", file=sys.stderr)
+        print(f"{PROGRAM}: could not create demo files: {exc}", file=sys.stderr)
         return 2
 
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
-        prog="lora-fitcheck",
+        prog=PROGRAM,
         description="Check the names, shapes and rank of a saved PEFT LoRA against a local base.",
     )
-    parser.add_argument(
-        "--version", action="version", version=f"%(prog)s {version('lora-fitcheck')}"
-    )
+    parser.add_argument("--version", action="version", version=f"%(prog)s {version(PROGRAM)}")
     commands = parser.add_subparsers(dest="command", required=True)
     command = commands.add_parser("check", help="check a local base and adapter")
     command.add_argument(

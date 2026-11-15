@@ -1,1 +1,1 @@
-"""Inspect the structural fit of a local PEFT LoRA adapter."""
+"""Compatibility for the original ``python -m lora_fitcheck`` command."""

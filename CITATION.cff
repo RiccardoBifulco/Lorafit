@@ -1,9 +1,9 @@
 cff-version: 1.2.0
 message: "If you use this tool in research, please cite it as software."
-title: "LoRA Fitcheck"
+title: "LoRAFit"
 type: software
 authors:
-  - name: "LoRA Fitcheck contributors"
-version: 0.1.0
+  - name: "LoRAFit contributors"
+version: 0.2.0
 date-released: 2026-11-15
 license: MIT

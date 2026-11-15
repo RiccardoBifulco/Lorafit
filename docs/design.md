@@ -1,6 +1,6 @@
-# Design: LoRA Fitcheck
+# LoRAFit design
 
-LoRA Fitcheck helps language-model researchers check whether a saved PEFT LoRA adapter's
+LoRAFit helps language-model researchers check whether a saved PEFT LoRA adapter's
 tensor names, shapes and rank fit a specific local base checkpoint before loading either model.
 
 **Before:** an engineer transfers an adapter from a training node, chooses a base snapshot,
@@ -32,16 +32,16 @@ LoRA variants are outside the supported layout.
 ## Interface
 
 ```text
-lora-fitcheck check BASE ADAPTER [--format text|json] [--max-findings N]
-lora-fitcheck demo
-lora-fitcheck --version
+lorafit check BASE ADAPTER [--format text|json] [--max-findings N]
+lorafit demo
+lorafit --version
 ```
 
 Return `0` when the supported layout matches, `1` for a completed check with mismatches, and
 `2` for unsupported, incomplete or unusable inputs. A single invalid model directory is an input
 error, never a fallback to a different checkpoint. `demo` builds both examples in a temporary
 directory and returns zero if it gets the documented two verdicts. No configuration beyond the
-original PEFT files. `python -m lora_fitcheck` is equivalent to the entry point.
+original PEFT files. `python -m lorafit` is equivalent to the entry point.
 
 ## Architecture
 

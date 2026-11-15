@@ -1,101 +1,84 @@
-# LoRA Fitcheck
+# LoRAFit
 
-![Version 0.1.0](https://img.shields.io/badge/version-0.1.0-blue) [![MIT license](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
+![LoRAFit demo. The same adapter matches two modules on the original base and only one on a base with a narrower projection.](assets/hero.svg)
 
-**Find LoRA checkpoint mismatches before you load the model.**
+**Find mismatches between a PEFT LoRA adapter and a local SafeTensors base before you load the model.**
+
+![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-315a86) [![MIT license](https://img.shields.io/badge/license-MIT-39856a)](LICENSE) [![Release 0.2.0](https://img.shields.io/badge/release-0.2.0-4f6179)](docs/release-notes-v0.2.0.md)
+
+[Quickstart](#quickstart) · [Use your checkpoints](#use-your-checkpoints) · [CI and scripting](#ci-and-scripting) · [Scope](#scope)
+
+Swapped your base checkpoint? `lorafit` checks the adapter's tensor names, shapes and rank by reading the SafeTensors headers. It reports the exact module that differs. The check runs offline with no GPU or runtime dependencies.
+
+## Quickstart
+
+From a checkout with Python 3.10 or newer:
+
+```sh
+python -m pip install .
+lorafit demo
+```
+
+The demo creates two tiny synthetic bases and checks the same adapter against both. If you have the release wheel, run `python -m pip install --no-index ./lorafit-0.2.0-py3-none-any.whl` from its directory. See the [release notes](docs/release-notes-v0.2.0.md) for build instructions.
+
+<details>
+<summary>Full output of the demo</summary>
 
 ```text
-$ lora-fitcheck check base adapter
+$ lorafit check base adapter
 MATCH: 2/2 modules match; read 2/2 base headers
 
-$ lora-fitcheck check wrong-base adapter
+$ lorafit check wrong-base adapter
 MISMATCH: 1/2 modules match; read 2/2 base headers
   shape_mismatch: 'model.layers.0.self_attn.v_proj': adapter B @ A gives (8, 16); base weight is (4, 16)
 ```
 
-These are the two runs from the offline demo. The adapter is the same in both; the second
-base has a narrower projection. An adapter and a base can each be valid files and still
-fail together. Fitcheck points to the mismatched tensor using the files you already have,
-without importing a model runtime, using a GPU, or reading tensor payload bytes.
+</details>
 
-## Quickstart
-
-In a Python 3.10+ environment, install the release wheel from the local `dist/` directory:
+## Use your checkpoints
 
 ```sh
-python -m pip install --no-index dist/lora_fitcheck-0.1.0-py3-none-any.whl
-lora-fitcheck demo
+lorafit check ./base-model ./adapter
 ```
 
-If you downloaded the wheel separately, point `pip` at that file. To install from a checkout
-without a wheel, run the following from the repository root:
-
-```sh
-python -m pip install .
-lora-fitcheck demo
-```
-
-The demo creates and checks two tiny synthetic examples in a temporary directory. No model
-downloads or API keys are needed. A source install may fetch its build tools; the release
-wheel installs offline. If your scripts directory is not on `PATH`, use `python -m lora_fitcheck`.
-
-## Check your files
-
-```sh
-# A base exported by Transformers and a directory saved by PEFT:
-lora-fitcheck check ./base-model ./adapter
-
-# Select an explicit weight file (for example, when a directory has two variants):
-lora-fitcheck check ./base-model/model.fp16.safetensors ./adapter
-
-# Check a multi-shard base as a step in your pipeline:
-lora-fitcheck check ./base-model/model.safetensors.index.json ./adapter --format json
-```
-
-The adapter directory needs `adapter_config.json` and `adapter_model.safetensors`.
-For a base directory, Fitcheck looks for `model.safetensors` or
-`model.safetensors.index.json`; pass the chosen file if both exist. The checker follows
-the index only to the shards that should hold the adapter's targets. The header count
-reports how many were opened out of the total referenced by the index.
-
-| Exit | JSON status | Meaning |
-| --- | --- | --- |
-| `0` | `match` | All stored A/B pairs fit the base's exact tensor names, shapes and configured rank. |
-| `1` | `mismatch` | The check found a mismatch such as an absent target, a missing A/B partner or a different shape. |
-| `2` | `incomplete` | A required input was missing, unreadable or outside the supported layout. CLI syntax errors also return `2`. |
-
-The text report limits its finding list to 12 by default; `--max-findings` changes that.
-JSON reports every finding and includes a `schema_version` for consumers. See the
-[scriptable example](examples/) and the [JSON schema guide](docs/report.md).
-
-## Which tool should I use?
-
-| Tool | When to use it |
+| Input | Pass to `lorafit check` |
 | --- | --- |
-| **LoRA Fitcheck** | Compare a saved dense PEFT LoRA to local SafeTensors files and gate a handoff on names, shapes and rank. |
-| [PEFT](https://huggingface.co/docs/peft/main/developer_guides/checkpoint) | Load, run, or merge an adapter with the actual model and test its behavior. |
-| [PEFT Doctor](https://pypi.org/project/peft-doctor/) | Validate a training recipe or its LoRA configuration. |
-| [Weightlint](https://github.com/thisbejim/weightlint) | Check the integrity and packaging of a standalone model bundle. |
+| Base | A directory with `model.safetensors` or `model.safetensors.index.json`, or an explicit weights or index file. |
+| Adapter | A directory with `adapter_config.json` and `adapter_model.safetensors`. |
 
-Version 0.1 supports plain PEFT LoRA on dense floating-point 2D weights, with a uniform rank
-and the standard saved key names. It does not support convolutional, quantized or embedding
-layouts, DoRA, fan-in/fan-out, or per-module rank/alpha patterns. A match does not establish
-the base revision, check that every intended module was trained, validate the payload, or
-guarantee that a given runtime will activate the adapter. Run an actual inference smoke test
-when runtime behavior matters.
+For a sharded base, LoRAFit opens only the shards listed for the adapter's targets. Index entries use portable shard filenames in the same directory. Pass an explicit file to select a variant, such as `./base-model/model.fp16.safetensors`. See the [runnable examples](examples/) for a fixture you can edit and a round trip using Transformers and PEFT.
 
-## Project links
+## CI and scripting
 
-- [Discovery and comparison](docs/discovery.md), [design](docs/design.md) and [references](docs/references.md)
-- [Benchmark](benchmarks/), [changelog](CHANGELOG.md) and [release notes](docs/release-notes-v0.1.0.md)
-- [Contributing](CONTRIBUTING.md), [good first issues](docs/good-first-issues.md) and [MIT license](LICENSE)
-
-Roadmap: support common `rank_pattern` layouts; add more independently generated fixtures;
-consider an explicit provenance check when exporters can supply a base revision or digest.
-
-Inspired by the concrete format examples in the PEFT and SafeTensors documentation. To cite
-the software, use [CITATION.cff](CITATION.cff) or this short reference:
-
-```text
-LoRA Fitcheck contributors. LoRA Fitcheck, version 0.1.0 (software, 2026).
+```sh
+lorafit check ./base-model ./adapter --format json
 ```
+
+| Exit | Status | Meaning |
+| --- | --- | --- |
+| `0` | `match` | Stored adapter pairs match the names, shapes and rank. |
+| `1` | `mismatch` | A target, shape, rank or pair differs. |
+| `2` | `incomplete` | A required input is unusable or outside the supported layout. |
+
+The [JSON report guide](docs/report.md) lists finding codes for scripting. Text output shows up to 12 findings by default. Set `--max-findings` to change the limit.
+
+## Scope
+
+LoRAFit supports standard PEFT LoRA pairs on dense floating-point matrices with a uniform rank. The result describes structural fit. Confirming the training base's exact revision or checking inference behavior requires separate evidence.
+
+| Tool | Use it for |
+| --- | --- |
+| **LoRAFit** | Check one adapter against one local base before starting a model runner. |
+| [PEFT](https://huggingface.co/docs/peft/main/developer_guides/checkpoint) | Load, run or merge an adapter with a model. |
+| [PEFT Doctor](https://pypi.org/project/peft-doctor/) | Validate a training recipe or LoRA configuration. |
+| [Weightlint](https://github.com/thisbejim/weightlint) | Inspect the integrity of a standalone model bundle. |
+
+On the [eight-shard benchmark](benchmarks/), LoRAFit reads 1,501 bytes of metadata for a 64 MiB base. The [design notes](docs/design.md) explain the supported layouts. Per-module ranks and base revision verification are on the roadmap.
+
+## Project
+
+[Changelog](CHANGELOG.md) · [Contributing](CONTRIBUTING.md) · [Good first issues](docs/good-first-issues.md) · [Research](docs/discovery.md) · [References](docs/references.md) · [Citation](CITATION.cff)
+
+LoRAFit follows the formats documented by the [PEFT](https://huggingface.co/docs/peft/main/developer_guides/checkpoint) and [SafeTensors](https://github.com/safetensors/safetensors) projects.
+
+If LoRAFit catches a mismatch in your workflow, give the repo a star so others can find it.

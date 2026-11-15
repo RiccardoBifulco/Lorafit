@@ -3,12 +3,12 @@ import subprocess
 import sys
 from pathlib import Path
 
-from lora_fitcheck._demo import build_demo
+from lorafit._demo import build_demo
 
 
 def _run(*args: str) -> subprocess.CompletedProcess[str]:
     return subprocess.run(
-        [sys.executable, "-m", "lora_fitcheck", *args],
+        [sys.executable, "-m", "lorafit", *args],
         capture_output=True,
         encoding="utf-8",
         check=False,

@@ -5,7 +5,7 @@ These are drafts for the project owner to post when ready.
 ### Add a BF16 export fixture made by the official SafeTensors writer
 
 The tests currently synthesize BF16 metadata. Add a small repeatable example using the official
-writer in a separate development environment. Document the command and prove that Fitcheck
+writer in a separate development environment. Document the command and prove that LoRAFit
 accepts mixed base/adapter storage dtypes within the supported float set. Keep the wheel free
 of dependencies and avoid checking large weights into Git.
 

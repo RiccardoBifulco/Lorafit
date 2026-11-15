@@ -3,8 +3,8 @@ from pathlib import Path
 
 import pytest
 
-from lora_fitcheck._check import check
-from lora_fitcheck._demo import Q, V, build_demo, write_weights
+from lorafit._check import check
+from lorafit._demo import Q, V, build_demo, write_weights
 
 
 @pytest.fixture

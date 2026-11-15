@@ -6,8 +6,8 @@ from pathlib import Path
 
 import pytest
 
-from lora_fitcheck import _metadata
-from lora_fitcheck._metadata import InputError, read_header, read_index
+from lorafit import _metadata
+from lorafit._metadata import InputError, read_header, read_index
 
 
 @pytest.mark.parametrize(

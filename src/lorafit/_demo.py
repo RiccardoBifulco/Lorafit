@@ -4,7 +4,7 @@ import json
 from math import prod
 from pathlib import Path
 
-from lora_fitcheck._metadata import FLOAT_BYTES
+from lorafit._metadata import FLOAT_BYTES
 
 Q = "model.layers.0.self_attn.q_proj"
 V = "model.layers.0.self_attn.v_proj"

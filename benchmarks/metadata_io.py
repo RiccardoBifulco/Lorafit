@@ -7,12 +7,12 @@ from statistics import median
 from tempfile import TemporaryDirectory
 from time import perf_counter
 
-from lora_fitcheck._check import check
-from lora_fitcheck._demo import write_weights
+from lorafit._check import check
+from lorafit._demo import write_weights
 
 
 def main() -> None:
-    with TemporaryDirectory(prefix="fitcheck-bench-") as tmp:
+    with TemporaryDirectory(prefix="lorafit-bench-") as tmp:
         base, adapter = Path(tmp) / "base", Path(tmp) / "adapter"
         base.mkdir()
         adapter.mkdir()

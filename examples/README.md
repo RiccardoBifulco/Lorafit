@@ -4,8 +4,8 @@ Create reusable synthetic checkpoint files and check the good and bad base:
 
 ```sh
 python examples/make_demo.py demo-data
-lora-fitcheck check demo-data/base demo-data/adapter --format json
-lora-fitcheck check demo-data/wrong-base demo-data/adapter --format json
+lorafit check demo-data/base demo-data/adapter --format json
+lorafit check demo-data/wrong-base demo-data/adapter --format json
 ```
 
 The second check exits `1` and names the mismatched `v_proj` weight. Use a new output
@@ -16,7 +16,7 @@ expects the two artifacts to have already been staged in the checkout:
 
 ```yaml
 - name: Check adapter against its base
-  run: lora-fitcheck check checkpoints/base checkpoints/adapter
+  run: lorafit check checkpoints/base checkpoints/adapter
 ```
 
 ## Reproduce with real exporters

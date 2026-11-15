@@ -6,7 +6,7 @@ body:
     id: version
     attributes:
       label: Version and platform
-      description: Show the output of lora-fitcheck --version and give the Python version and OS.
+      description: Show the output of lorafit --version and give the Python version and OS.
     validations:
       required: true
   - type: textarea

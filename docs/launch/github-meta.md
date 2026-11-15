@@ -1,12 +1,11 @@
 # GitHub launch setup
 
-- Suggested repository name: `lora-fitcheck`
-- Description: `Find PEFT LoRA mismatches against local SafeTensors checkpoints before loading the model.`
-- Topics: `lora`, `peft`, `safetensors`, `transformers`, `llm`, `machine-learning`, `cli`, `reproducibility`
+- Repository name: `lorafit`
+- Description: `Catch PEFT LoRA mismatches before loading model weights. An offline SafeTensors CLI for checkpoint names, shapes, and rank.`
+- Topics: `lora`, `peft`, `safetensors`, `huggingface`, `transformers`, `llm`, `fine-tuning`, `python`, `cli`, `reproducibility`
+- Social preview: [`assets/social-card.png`](../../assets/social-card.png)
 
-Push `main` and `v0.1.0` to the owner's new repository. After public CI runs, add the CI
-badge that GitHub provides for `.github/workflows/ci.yml`; the local repo has version and
-license badges only. Configure a private conduct contact, create the GitHub release from the
-[release notes](../release-notes-v0.1.0.md), and attach the verified wheel and source archive.
-Add the actual repository URL to the launch drafts before posting. Review the target
-community's submission rules and post under your own account.
+Push `main` and `v0.2.0`. Upload the social preview in the repository settings and use the
+[release notes](../release-notes-v0.2.0.md) when attaching the verified wheel and source archive.
+After GitHub Actions runs, use its generated CI badge. Add the public repository URL to each
+launch draft before posting.

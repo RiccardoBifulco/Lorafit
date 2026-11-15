@@ -38,12 +38,14 @@ rejection even if the aggregate is competitive. Scores are 1–5, with an unweig
 | GPU memory triage | 5 | 5 | 3 | 2 | 4 | 5 | 24 |
 | Missing paper artifacts | 4 | 5 | 2 | 3 | 3 | 4 | 21 |
 
-## Why LoRA Fitcheck
+## Why LoRAFit
 
 Separate base and adapter downloads make the handoff failure easy to isolate. The saved A/B
 matrix shapes and the base's checkpoint keys provide enough evidence to detect several concrete
 mistakes before installing a model runner. The check is a useful complement to loading the
 adapter and testing a real output; supplying the wrong same-shaped base remains possible.
+
+The [public adapter audit in *Audit Before You Merge*](https://openreview.net/pdf/ef83b5e1e66b07246f526b4a12401e9c9cb30387.pdf) found that 41 of 62 readable adapters returned by searches for two model families named a different base than the one selected by the researchers. That result describes model identity in the sampled search results. LoRAFit checks structural fit, so an incorrect revision can still pass when tensor names and shapes match.
 
 I searched GitHub, PyPI and npm for `PEFT adapter compatibility`, `LoRA preflight`,
 `LoRA adapter validator`, `safetensors adapter shape` and `LoRA base mismatch`. This is a review

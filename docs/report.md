@@ -1,6 +1,6 @@
 # JSON report, schema version 1
 
-Run `lora-fitcheck check BASE ADAPTER --format json`. Paths remain local; they are reported
+Run `lorafit check BASE ADAPTER --format json`. Paths remain local; they are reported
 when they help locate an error. File-based findings go to stdout in both modes. CLI argument
 errors use stderr and do not emit a JSON report.
 

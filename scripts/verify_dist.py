@@ -37,19 +37,24 @@ def verify(work: Path, output: Path | None) -> None:
     windows = os.name == "nt"
     scripts = environment / ("Scripts" if windows else "bin")
     python = scripts / ("python.exe" if windows else "python")
-    cli = scripts / ("lora-fitcheck.exe" if windows else "lora-fitcheck")
+    cli = scripts / ("lorafit.exe" if windows else "lorafit")
     start = perf_counter()
     subprocess.run(
         [str(python), "-m", "pip", "install", "--no-index", "--no-deps", str(wheel)],
         cwd=work,
         check=True,
     )
-    subprocess.run([str(cli), "--version"], cwd=work, check=True)
+    version = subprocess.check_output([str(cli), "--version"], cwd=work, text=True)
+    print(version, end="")
     demo = subprocess.run([str(cli), "demo"], cwd=work, check=True, capture_output=True, text=True)
     if demo.stdout.strip() not in (ROOT / "README.md").read_text(encoding="utf-8"):
         raise RuntimeError("installed demo output does not match the README")
     print(demo.stdout, end="")
     print(f"Offline wheel installation and demo: {perf_counter() - start:.2f} s")
+    legacy = scripts / ("lora-fitcheck.exe" if windows else "lora-fitcheck")
+    for entry_point in ([str(legacy)], [str(python), "-m", "lora_fitcheck"]):
+        if subprocess.check_output([*entry_point, "--version"], cwd=work, text=True) != version:
+            raise RuntimeError(f"legacy entry point resolves to a different version: {entry_point}")
     if output is not None:
         output.mkdir(parents=True, exist_ok=True)
         for artifact in (wheel, sdist):
@@ -60,5 +65,5 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output-dir", type=Path, help="copy the verified wheel and sdist here")
     args = parser.parse_args()
-    with TemporaryDirectory(prefix="fitcheck-release-") as tmp:
+    with TemporaryDirectory(prefix="lorafit-release-") as tmp:
         verify(Path(tmp), args.output_dir)

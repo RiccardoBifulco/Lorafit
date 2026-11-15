@@ -23,7 +23,7 @@ def main() -> None:
             num_key_value_heads=2,
         )
 
-    with TemporaryDirectory(prefix="fitcheck-peft-") as tmp:
+    with TemporaryDirectory(prefix="lorafit-peft-") as tmp:
         root = Path(tmp)
         base, wrong, adapter = (root / name for name in ("base", "wrong-base", "adapter"))
         model = transformers.LlamaForCausalLM(config(32))
@@ -39,7 +39,7 @@ def main() -> None:
         different.save_pretrained(wrong, safe_serialization=True)
         for checkpoint, expected in ((base, 0), (wrong, 1)):
             result = subprocess.run(
-                [sys.executable, "-m", "lora_fitcheck", "check", str(checkpoint), str(adapter)],
+                [sys.executable, "-m", "lorafit", "check", str(checkpoint), str(adapter)],
                 check=False,
             )
             if result.returncode != expected:

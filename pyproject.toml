@@ -3,9 +3,9 @@ requires = ["hatchling>=1.27,<2"]
 build-backend = "hatchling.build"
 
 [project]
-name = "lora-fitcheck"
-version = "0.1.0"
-description = "Check whether a PEFT LoRA adapter fits a local SafeTensors base before loading it."
+name = "lorafit"
+version = "0.2.0"
+description = "Find mismatches between a PEFT LoRA adapter and its local SafeTensors base."
 readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"
@@ -21,14 +21,18 @@ classifiers = [
 dependencies = []
 
 [project.scripts]
-lora-fitcheck = "lora_fitcheck.cli:main"
+lorafit = "lorafit.cli:main"
+lora-fitcheck = "lorafit.cli:main"
 
 [project.optional-dependencies]
 dev = ["build>=1.2,<2", "mypy>=1.15,<3", "packaging>=24,<27", "pytest>=8.3,<10", "ruff>=0.11,<1"]
 
+[tool.hatch.build.targets.wheel]
+packages = ["src/lorafit", "src/lora_fitcheck"]
+
 [tool.hatch.build.targets.sdist]
 include = [
-  "/src", "/tests", "/examples", "/benchmarks", "/scripts", "/docs",
+  "/src", "/tests", "/examples", "/benchmarks", "/scripts", "/docs", "/assets",
   "/README.md", "/LICENSE", "/CONTRIBUTING.md", "/CODE_OF_CONDUCT.md",
   "/CITATION.cff", "/CHANGELOG.md",
 ]

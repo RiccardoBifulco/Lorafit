@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.2.0] — 2026-11-15
+
+- Adopt the LoRAFit name, `lorafit` package and CLI command.
+- Ship the original CLI and module entry points as aliases.
+- Show the match and mismatch demo up front, with quick links for installing and checking your files.
+
 ## [0.1.0] — 2026-11-15
 
 - Check stored dense PEFT LoRA pairs against a local SafeTensors base without loading tensors.
