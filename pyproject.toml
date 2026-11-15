@@ -1,0 +1,50 @@
+[build-system]
+requires = ["hatchling>=1.27,<2"]
+build-backend = "hatchling.build"
+
+[project]
+name = "lora-fitcheck"
+version = "0.1.0"
+description = "Check whether a PEFT LoRA adapter fits a local SafeTensors base before loading it."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+license-files = ["LICENSE"]
+keywords = ["lora", "peft", "safetensors", "checkpoint", "preflight"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Environment :: Console",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3 :: Only",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = []
+
+[project.scripts]
+lora-fitcheck = "lora_fitcheck.cli:main"
+
+[project.optional-dependencies]
+dev = ["build>=1.2,<2", "mypy>=1.15,<3", "pytest>=8.3,<10", "ruff>=0.11,<1"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+  "/src", "/tests", "/examples", "/benchmarks", "/scripts", "/docs",
+  "/README.md", "/LICENSE", "/CONTRIBUTING.md", "/CODE_OF_CONDUCT.md",
+  "/CITATION.cff", "/CHANGELOG.md",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM"]
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+files = ["src", "tests", "examples", "benchmarks", "scripts"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--strict-config --strict-markers"
