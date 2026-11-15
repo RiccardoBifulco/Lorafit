@@ -20,7 +20,15 @@ without importing a model runtime, using a GPU, or reading tensor payload bytes.
 
 ## Quickstart
 
-From the repository root, in a Python 3.10+ environment:
+In a Python 3.10+ environment, install the release wheel from the local `dist/` directory:
+
+```sh
+python -m pip install --no-index dist/lora_fitcheck-0.1.0-py3-none-any.whl
+lora-fitcheck demo
+```
+
+If you downloaded the wheel separately, point `pip` at that file. To install from a checkout
+without a wheel, run the following from the repository root:
 
 ```sh
 python -m pip install .
@@ -28,8 +36,8 @@ lora-fitcheck demo
 ```
 
 The demo creates and checks two tiny synthetic examples in a temporary directory. No model
-downloads or API keys are needed. This release is distributed from source and as a wheel;
-it is not on PyPI. If your scripts directory is not on `PATH`, use `python -m lora_fitcheck`.
+downloads or API keys are needed. A source install may fetch its build tools; the release
+wheel installs offline. If your scripts directory is not on `PATH`, use `python -m lora_fitcheck`.
 
 ## Check your files
 
