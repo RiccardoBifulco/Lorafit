@@ -24,7 +24,7 @@ dependencies = []
 lora-fitcheck = "lora_fitcheck.cli:main"
 
 [project.optional-dependencies]
-dev = ["build>=1.2,<2", "mypy>=1.15,<3", "pytest>=8.3,<10", "ruff>=0.11,<1"]
+dev = ["build>=1.2,<2", "mypy>=1.15,<3", "packaging>=24,<27", "pytest>=8.3,<10", "ruff>=0.11,<1"]
 
 [tool.hatch.build.targets.sdist]
 include = [

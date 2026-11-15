@@ -8,7 +8,13 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def main() -> int:
-    checks = (("ruff", "check"), ("ruff", "format", "--check"), ("mypy",), ("pytest", "-q"))
+    paths = ("src", "tests", "examples", "benchmarks", "scripts")
+    checks = (
+        ("ruff", "check", *paths),
+        ("ruff", "format", "--check", *paths),
+        ("mypy",),
+        ("pytest", "-q"),
+    )
     for args in checks:
         result = subprocess.run([sys.executable, "-m", *args], cwd=ROOT, check=False)
         if result.returncode:
