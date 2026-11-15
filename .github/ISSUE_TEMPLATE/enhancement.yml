@@ -1,0 +1,11 @@
+name: Improvement request
+description: Describe a missing part of the adapter preflight workflow
+labels: [enhancement]
+body:
+  - type: textarea
+    id: workflow
+    attributes:
+      label: What are you trying to check?
+      description: Describe the input layout, the desired result, and your current workaround.
+    validations:
+      required: true

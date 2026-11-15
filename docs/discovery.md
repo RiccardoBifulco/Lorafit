@@ -52,11 +52,13 @@ of discoverable tools and their documented interfaces, not proof that no other s
 | Closest option | What it does | Remaining gap for this workflow |
 | --- | --- | --- |
 | [PEFT](https://huggingface.co/docs/peft/main/developer_guides/checkpoint) | Loads adapters into real models and handles many adapter configurations. | Run PEFT as the runtime check. Its documented loading flow starts with a model object; the file-only check is earlier and needs neither PEFT nor a model runtime. |
+| [PEFT Doctor](https://pypi.org/project/peft-doctor/) | Checks training recipes and `LoraConfig` fields, including saved adapter config. | Configuration checks do not establish that the serialized A/B factors fit the exact tensors in a separate checkpoint. |
+| [AdapterSentry](https://pypi.org/project/adaptersentry/) | Checks structural details and analyzes weights within one adapter. | Its documented scan takes one adapter, not the local base's shard index and target headers. |
 | [LoRAForge](https://lishenghui.github.io/loraforge/peft.html) | Reads PEFT adapter metadata, verifies its own manifests, compresses adapters. | The documented inspection concerns the adapter, rather than checking its targets against a separate base checkpoint. |
 | [Weightlint](https://github.com/thisbejim/weightlint) | Checks a local checkpoint bundle for malformed headers, missing shards and related issues. | Bundle integrity and fit between two separately valid bundles are different checks. |
 | [ckptkit](https://github.com/stef41/ckptkit) / [mergekit](https://github.com/arcee-ai/mergekit) | Inspect/merge checkpoints or derive adapters as documented. | Useful if weights must be manipulated; no documented header-only, two-artifact PEFT fit verdict with a CI exit status was found. |
 | [vLLM](https://docs.vllm.ai/en/latest/features/lora/) / [llama.cpp](https://github.com/ggml-org/llama.cpp/blob/master/src/llama-adapter.cpp) | Validate aspects of adapters at load or conversion time for their own runtimes. | Runtime support is a separate question. This release checks local PEFT dense tensor names and shapes without starting a runtime or converting files. |
 
 The gap is concrete: two paths in, exact mismatch locations and a CI verdict out, with no
-runtime dependencies or weight-payload reads. Benchmark and end-to-end checks in the repository
-are intended to substantiate those design claims.
+runtime dependencies or weight-payload reads. The [benchmark](../benchmarks/) and
+[exporter round-trip](../examples/) substantiate those design claims.
