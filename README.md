@@ -6,7 +6,7 @@
 
 [![CI](https://github.com/nazek52/lorafit/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/nazek52/lorafit/actions/workflows/ci.yml) [![Latest release](https://img.shields.io/github/v/release/nazek52/lorafit?color=4f6179)](https://github.com/nazek52/lorafit/releases/latest) ![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-315a86) [![MIT license](https://img.shields.io/badge/license-MIT-39856a)](LICENSE)
 
-[Try the demo](#quickstart) · [Download the wheel](https://github.com/nazek52/lorafit/releases/download/v0.2.0/lorafit-0.2.0-py3-none-any.whl) · [Check your files](#use-your-checkpoints) · [CI and scripting](#ci-and-scripting)
+[Try the demo](#quickstart) · [Download the wheel](https://github.com/nazek52/lorafit/releases/download/v0.2.0/lorafit-0.2.0-py3-none-any.whl) · [Check your files](#use-your-checkpoints) · [CI and scripting](#ci-and-scripting) · [Contribute](#contribute)
 
 Swapped your base checkpoint? `lorafit` checks the adapter's tensor names, shapes and rank by reading the SafeTensors headers. It reports the exact module that differs. The check runs offline with no GPU or runtime dependencies.
 
@@ -75,6 +75,25 @@ LoRAFit supports standard PEFT LoRA pairs on dense floating-point matrices with 
 | [Weightlint](https://github.com/thisbejim/weightlint) | Inspect the integrity of a standalone model bundle. |
 
 On the [eight-shard benchmark](benchmarks/), LoRAFit reads 1,501 bytes of metadata for a 64 MiB base. The [design notes](docs/design.md) explain the supported layouts. Per-module ranks and base revision verification are on the roadmap.
+
+## Contribute
+
+LoRAFit is maintained by [@nazek52](https://github.com/nazek52) and welcomes contributors.
+You can help with Python, exporter examples, tests, and documentation on CPU. The
+[starter tasks](docs/good-first-issues.md) include the relevant files and completion criteria.
+Comment on an issue to introduce yourself and coordinate with the maintainer.
+
+| Contribution | Starting point |
+| --- | --- |
+| An example using the official SafeTensors BF16 writer | [Issue #1](https://github.com/nazek52/Lorafit/issues/1) |
+| Helpful filenames when the base directory contains only a variant | [Issue #2](https://github.com/nazek52/Lorafit/issues/2) |
+| Runnable examples explaining incomplete JSON reports | [Issue #3](https://github.com/nazek52/Lorafit/issues/3) |
+| Per-module ranks from PEFT's `rank_pattern` | [Issue #4](https://github.com/nazek52/Lorafit/issues/4) |
+
+Follow the [contribution guide](CONTRIBUTING.md) to run the demo and checks before your first
+PR. The [roadmap](docs/roadmap.md) explains the next steps. Have another use case? Open an
+[improvement request](https://github.com/nazek52/Lorafit/issues/new?template=enhancement.yml)
+with the input you need to check and the result you expect.
 
 ## Project
 

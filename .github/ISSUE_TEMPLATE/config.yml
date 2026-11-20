@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Find a contribution
+    url: https://github.com/nazek52/Lorafit/blob/main/docs/good-first-issues.md
+    about: Choose a CPU-friendly task and introduce yourself in its issue thread.
+  - name: Contribution setup and checks
+    url: https://github.com/nazek52/Lorafit/blob/main/CONTRIBUTING.md
+    about: Set up the project, run checks, and prepare your first pull request.
