@@ -30,3 +30,7 @@ New finding codes may be added. Main codes:
 | `ambiguous_base`, `base_not_found`, `unsupported_base` | Pass an explicit existing `.safetensors` file or `.safetensors.index.json`. |
 | `empty_adapter` | Confirm the adapter actually contains saved LoRA weights. |
 | `unsupported_config`, `unsupported_tensor`, `unsupported_layout` | Use the actual PEFT/model runtime to assess layouts outside v0.1. |
+
+For runnable `file_missing` and `indexed_tensor_missing` reproductions and a script that
+branches on exit codes, see the
+[missing and misindexed shard walkthrough](../examples/README.md#reproduce-missing-and-misindexed-shard-reports).
